@@ -1,0 +1,78 @@
+﻿<Window x:Class="MediaCreator.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MediaCreator"
+        mc:Ignorable="d"
+        DataContext="{Binding RelativeSource={RelativeSource Self}}"
+        Title="Create Video from Audio" Height="450" Width="800">
+    <Window.Resources>
+        <local:HasSelectedItemConverter x:Key="HasSelectedItemConverter" />
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid Height="Auto" Grid.Row="0" Margin="0,0,0,0" Grid.RowSpan="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="61*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Button x:Name="SourceSelect" Padding="5" Grid.Column="1" Content="Select Source" Margin="5" Click="SourceSelect_Click"/>
+                    <TextBox x:Name="Source"  Text="{Binding SourceFolder}" IsReadOnly="True" Margin="5" TextWrapping="NoWrap" ToolTip="Source Folder"  />
+                </Grid>
+                <ListView x:Name="Files" Grid.Column="0" Grid.Row="1" Margin="5" SelectionMode="Single" ScrollViewer.VerticalScrollBarVisibility="Visible"  
+                       BorderThickness="0" ItemsSource="{Binding FileList}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding}"></TextBlock>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+                <Button x:Name="Remove" Padding="5" Content="Remove" IsEnabled="{Binding ElementName=Files, Path=SelectedIndex,Converter={StaticResource HasSelectedItemConverter}}" HorizontalAlignment="Left" Margin="5" Grid.Row="2" VerticalAlignment="Top" Click="Remove_Click"/>
+
+            </Grid>
+            <Grid Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="331*"/>
+                </Grid.RowDefinitions>
+                <Grid Height="Auto">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="61*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Button x:Name="SourceSelectImage" Padding="5" Grid.Column="1" Content="Select Image" Margin="5" Click="SourceSelectImage_Click"/>
+                    <TextBox x:Name="ImageSource" IsReadOnly="True" Text="{Binding SourceImage}" Margin="5" TextWrapping="NoWrap" ToolTip="Source Image"  />
+                </Grid>
+                <Image x:Name="image"  Margin="5" Grid.Row="1" Source="{Binding SourceImage}" />
+
+            </Grid>
+        </Grid>
+        <Grid Grid.Row="1" Height="Auto">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="249*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <TextBox x:Name="textBox" Width="250" Margin="5" Text="{Binding OutputFolder}" IsReadOnly="True"/>
+            <Button x:Name="selectOutput" Grid.Column="1" Padding="5" Content="Select Output" HorizontalAlignment="Left" Margin="5" VerticalAlignment="Top" Click="selectOutput_Click"/>
+            <Button x:Name="Run" Grid.Column="3" Content="Output" Padding="5" HorizontalAlignment="Left" Margin="5" VerticalAlignment="Top" Click="Run_Click"/>
+            <Label x:Name="label" Grid.Column="2" Content="{Binding CurrentFile}" Margin="5"/>
+        </Grid>
+    </Grid>
+</Window>
